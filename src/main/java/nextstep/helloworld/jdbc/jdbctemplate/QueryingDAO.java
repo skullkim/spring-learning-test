@@ -1,6 +1,8 @@
 package nextstep.helloworld.jdbc.jdbctemplate;
 
+import java.util.Optional;
 import nextstep.helloworld.jdbc.Customer;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -29,7 +31,7 @@ public class QueryingDAO {
      */
     public int count() {
         String sql = "select count(*) from customers";
-        return 0;
+        return this.jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
     /**
@@ -37,7 +39,7 @@ public class QueryingDAO {
      */
     public String getLastName(Long id) {
         String sql = "select last_name from customers where id = ?";
-        return null;
+        return jdbcTemplate.queryForObject(sql, String.class, id);
     }
 
     /**
@@ -45,7 +47,7 @@ public class QueryingDAO {
      */
     public Customer findCustomerById(Long id) {
         String sql = "select id, first_name, last_name from customers where id = ?";
-        return null;
+        return jdbcTemplate.queryForObject(sql, actorRowMapper, id);
     }
 
     /**
